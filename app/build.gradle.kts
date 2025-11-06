@@ -7,6 +7,12 @@ android {
     namespace = "com.example.sergiom_tresenraya"
     compileSdk = 36
 
+    buildFeatures {
+
+        viewBinding = true
+
+    }
+
     defaultConfig {
         applicationId = "com.example.sergiom_tresenraya"
         minSdk = 24
