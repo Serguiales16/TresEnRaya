@@ -42,7 +42,9 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="Turno: X"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,11 +78,14 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="155dp"
         android:layout_marginBottom="27dp"
-        android:text="TextView"
+        android:text="TRES EN RAYA"
+        android:textColor="#C244CB"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/ticTacToeView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

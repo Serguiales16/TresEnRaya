@@ -25,6 +25,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val ticTacToeView = findViewById<TicTacToeView>(R.id.ticTacToeView)
+
+
+
+        binding.btnReset.setOnClickListener {
+            ticTacToeView.resetBoard()
+        }
+
 
 
     }
