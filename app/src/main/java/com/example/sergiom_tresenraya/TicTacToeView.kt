@@ -13,9 +13,17 @@ class TicTacToeView @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : View(context, attrs) {
 
-    /**
-     *
-     */
+
+
+    interface GameListener {
+        fun juegoTermina(ganador: Int)
+        fun cambioTurno(player: Int)
+    }
+
+    var listener: GameListener? = null
+
+
+
     private val paintGrid = Paint().apply {
         color = Color.MAGENTA
         strokeWidth = 12f
@@ -43,7 +51,7 @@ class TicTacToeView @JvmOverloads constructor(
     private val board = Array(3) { IntArray(3) }
 
 
-    private var currentPlayer = 1
+    private var jugadorActual = 1
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -96,6 +104,7 @@ class TicTacToeView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
+
             val cw = width / 3
             val ch = height / 3
 
@@ -105,10 +114,19 @@ class TicTacToeView @JvmOverloads constructor(
             if (row in 0..2 && col in 0..2) {
 
                 if (board[row][col] == 0) {
-                    board[row][col] = currentPlayer
 
+                    board[row][col] = jugadorActual
 
-                    currentPlayer = if (currentPlayer == 1) 2 else 1
+                    val result = quienGana()
+
+                    if (result != 0) {
+                        // ↑ Hemos detectado ganador o empate
+                        listener?.juegoTermina(result)
+                    } else {
+                        jugadorActual = if (jugadorActual == 1) 2 else 1
+
+                        listener?.cambioTurno(jugadorActual)
+                    }
 
                     invalidate()
                 }
@@ -118,9 +136,56 @@ class TicTacToeView @JvmOverloads constructor(
     }
 
 
-    fun resetBoard() {
+
+    fun quienGana(): Int {
+
+        // Filas
+        for (r in 0..2) {
+            if (board[r][0] != 0 &&
+                board[r][0] == board[r][1] &&
+                board[r][1] == board[r][2]) {
+                return board[r][0]
+            }
+        }
+
+        // Columnas
+        for (c in 0..2) {
+            if (board[0][c] != 0 &&
+                board[0][c] == board[1][c] &&
+                board[1][c] == board[2][c]) {
+                return board[0][c]
+            }
+        }
+
+        // Diagonal principal
+        if (board[0][0] != 0 &&
+            board[0][0] == board[1][1] &&
+            board[1][1] == board[2][2]) {
+            return board[0][0]
+        }
+
+        // Diagonal inversa
+        if (board[0][2] != 0 &&
+            board[0][2] == board[1][1] &&
+            board[1][1] == board[2][0]) {
+            return board[0][2]
+        }
+
+        // ¿Empate?
+        var emptyFound = false
+        for (r in 0..2)
+            for (c in 0..2)
+                if (board[r][c] == 0) emptyFound = true
+
+        if (!emptyFound) return 3
+
+        return 0
+    }
+
+
+    fun restablecer() {
         for (r in 0..2) for (c in 0..2) board[r][c] = 0
-        currentPlayer = 1
+        jugadorActual = 1
         invalidate()
     }
 }
