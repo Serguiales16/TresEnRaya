@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.ticTacToeView)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tablero)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val ticTacToeView = findViewById<TicTacToeView>(R.id.ticTacToeView)
+        val ticTacToeView = findViewById<Tablero>(R.id.tablero)
 
 
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        ticTacToeView.listener = object : TicTacToeView.GameListener {
+        ticTacToeView.listener = object : Tablero.GameListener {
 
             override fun juegoTermina(ganador: Int) {
                 val mensajeFinal = when (ganador) {

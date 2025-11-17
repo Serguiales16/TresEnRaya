@@ -9,8 +9,8 @@
     tools:context=".MainActivity">
 
     <!-- Vista personalizada donde dibujarás las X y O con Canvas -->
-    <com.example.sergiom_tresenraya.TicTacToeView
-        android:id="@+id/ticTacToeView"
+    <com.example.sergiom_tresenraya.Tablero
+        android:id="@+id/tablero"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackground"
@@ -53,10 +53,6 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="wrap_content" />
-
             <Button
                 android:id="@+id/btnReset"
                 android:layout_width="0dp"
@@ -82,7 +78,7 @@
         android:textColor="#C244CB"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/ticTacToeView"
+        app:layout_constraintBottom_toTopOf="@+id/tablero"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
