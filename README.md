@@ -9,10 +9,13 @@ Su objetivo es demostrar conocimientos en:
 - Gestión de lógica de juego
 - Redibujado dinámico en pantalla
 - Uso limpio de patrones como “listener interface”
+- Añadido en el manifest para que no reinicie la app al girar la pantalla
+
 
 ---
 
 ## ✨ Funcionalidades Destacadas
+
 
 | Funcionalidad | Descripción |
 |----------------|-------------|
@@ -117,4 +120,6 @@ Abrir el proyecto en **Android Studio** y ejecutar.
 ## 🟫 Licencia
 
 Proyecto libre para aprendizaje y uso personal.
+
+
 
