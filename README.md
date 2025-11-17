@@ -1,196 +1,120 @@
-🟪 Tres en Raya (Android – Kotlin + Canvas)
+# 🎮 Tres en Raya Android: Juego Completo con Canvas y Vista Personalizada
 
-Este proyecto es un juego de Tres en Raya (Tic Tac Toe) hecho en Android utilizando Kotlin y una vista personalizada (Tablero) que dibuja todo con Canvas.
+Este proyecto es una implementación nativa del clásico **Tres en Raya (Tic Tac Toe)** desarrollada en Android usando **Kotlin**, **Canvas** y una **Vista Personalizada**.  
+Su objetivo es demostrar conocimientos en:
 
-El juego permite:
+- Creación de vistas personalizadas con `Canvas`
+- Manejo de eventos táctiles
+- Comunicación entre `Activity` y `View`
+- Gestión de lógica de juego
+- Redibujado dinámico en pantalla
+- Uso limpio de patrones como “listener interface”
 
-Dibujar el tablero y las fichas.
+---
 
-Detectar toques en la pantalla.
+## ✨ Funcionalidades Destacadas
 
-Cambiar de turno entre X y O.
+| Funcionalidad | Descripción |
+|----------------|-------------|
+| 🖼️ **Dibujo con Canvas** | El tablero y las piezas X/O se dibujan manualmente usando `Canvas` y `Paint`. |
+| 🎯 **Detección de toques** | El usuario toca una casilla y el juego detecta automáticamente la posición. |
+| 🔄 **Turnos automáticos** | El turno alterna entre X y O con indicador visual. |
+| 🏆 **Detección de victoria** | Algoritmo completo que revisa filas, columnas y diagonales. |
+| 🤝 **Empates incluidos** | Muestra cuando no quedan casillas libres. |
+| 📢 **Comunicación con MainActivity** | La vista personalizada avisa al Activity cuando cambia el turno o alguien gana. |
+| 🔁 **Reinicio instantáneo** | Un botón reinicia el tablero completo desde la interfaz. |
+| 📋 **Estado visible** | Un TextView indica siempre de quién es el turno o el resultado final. |
 
-Detectar ganador o empate.
+---
 
-Mostrar mensajes en pantalla.
+## 🗺️ Flujo y Estructura de la Aplicación
 
-Resetear la partida automáticamente.
+La app está dividida en dos componentes principales:
 
-🟦 Estructura del Proyecto
+| Clase | Propósito | Punto de interés |
+|--------|-----------|------------------|
+| `MainActivity.kt` | Control de interfaz, textos y reinicio | Maneja eventos que vienen del tablero y actualiza la UI. |
+| `Tablero.kt` | Lógica completa del juego y dibujo | Implementación de Canvas y detección de toques. |
 
-El proyecto tiene dos partes principales:
+---
 
-✔ MainActivity
+## 🟩 Métodos Principales en MainActivity
 
-Controla la interfaz y recibe las notificaciones del tablero (turnos, ganador, empate).
+### `onCreate()`
+Inicializa la UI, configura eventos y conecta la vista `Tablero` con sus listeners.
 
-✔ Tablero (View personalizada)
+### `btnReset.setOnClickListener`
+- Limpia el tablero
+- Restablece el texto *“Turno: X”*
 
-Se encarga de dibujar el juego, detectar toques y manejar la lógica interna del Tres en Raya.
-
-🟩 MainActivity – Explicación de métodos
-### onCreate()
-
-Carga el layout con ViewBinding.
-
-Prepara los bordes y márgenes de la pantalla.
-
-Obtiene la vista personalizada Tablero.
-
-Gestiona el botón Reiniciar.
-
-Recibe eventos del tablero mediante listener.
-
-### btnReset.setOnClickListener
-
-Reinicia el tablero llamando a restablecer().
-
-Actualiza el texto del estado a "Turno: X".
-
-### listener de Tablero
-
-El Activity escucha dos cosas:
-
-juegoTermina(ganador: Int)
-
+### `listener.juegoTermina(ganador: Int)`
 Se llama cuando:
+- 1 → gana X  
+- 2 → gana O  
+- 3 → empate  
 
-Gana X → devuelve 1
+Acciones:
+- Muestra mensaje Toast  
+- Actualiza el estado  
+- Reinicia el tablero  
 
-Gana O → devuelve 2
+### `listener.cambioTurno(player: Int)`
+Actualiza el texto para mostrar qué jugador debe jugar.
 
-Empate → devuelve 3
+---
 
-El método:
+## 🟥 Métodos Principales en Tablero
 
-Muestra un Toast
-
-Cambia el texto del estado
-
-Reinicia el tablero
-
-cambioTurno(player: Int)
-
-Se llama cada vez que cambia el turno.
-
-Si player == 1 → Turno de X
-
-Si player == 2 → Turno de O
-
-Actualiza el TextView con el turno.
-
-🟥 Tablero – Explicación de métodos
-
-La clase Tablero es una vista personalizada que dibuja el juego y controlará toda la lógica interna.
-
-🎨 Dibujo
-### onDraw(canvas: Canvas)
-
+### `onDraw(canvas)`
 Dibuja:
+- Líneas del tablero
+- Marco exterior
+- Fichas X y O según la matriz `board`
 
-Líneas del tablero
+### `drawX()` y `drawO()`
+Dibujan la pieza correspondiente dentro de la casilla tocada.
 
-Marco exterior
+### `onTouchEvent(event)`
+Detecta dónde toca el usuario y:
+1. Coloca una ficha
+2. Comprueba ganador
+3. Cambia turno si es necesario
+4. Redibuja todo
 
-Las fichas (X y O) en cada casilla
-
-Depende del contenido de la matriz board.
-
-✖ / ⭕ Dibujar fichas
-drawX()
-
-Dibuja una X usando dos líneas diagonales.
-
-drawO()
-
-Dibuja un círculo perfecto en el centro de la casilla.
-
-🟧 Interacción del jugador
-### onTouchEvent(event: MotionEvent)
-
-Detecta cuando el usuario toca el tablero.
-
-Hace esto:
-
-Calcula en qué casilla tocó el usuario.
-
-Si la casilla está vacía → coloca X o O.
-
-Comprueba si hay ganador con quienGana().
-
-Si alguien gana o hay empate → avisa al Activity con listener.juegoTermina().
-
-Si no hay ganador → alterna el turno.
-
-Llama a invalidate() para redibujar.
-
-🟨 Lógica del juego
-### quienGana(): Int
-
+### `quienGana()`
 Devuelve:
+- 1 → Gana X  
+- 2 → Gana O  
+- 3 → Empate  
+- 0 → Nadie aún  
 
-1 → Gana X
+Revisa todas las filas, columnas y diagonales.
 
-2 → Gana O
+### `restablecer()`
+Reinicia el juego dejando el tablero vacío.
 
-3 → Empate
+---
 
-0 → Aún no gana nadie
+## 🟦 Requisitos Técnicos
 
-Comprueba:
+- Android Studio
+- Kotlin
+- API mínima recomendada: 24
+- No usa librerías externas
 
-Las 3 filas
+---
 
-Las 3 columnas
+## 🟪 Instalación
 
-La diagonal principal
+```
+git clone https://github.com/usuario/TresEnRayaAndroid.git
+```
 
-La diagonal inversa
+Abrir el proyecto en **Android Studio** y ejecutar.
 
-Si no hay huecos y nadie ganó → empate
+---
 
-🔄 Reiniciar partida
-### restablecer()
+## 🟫 Licencia
 
-Limpia la matriz del tablero a 0.
+Proyecto libre para aprendizaje y uso personal.
 
-Pone el turno de nuevo en 1 (X).
-
-Llama a invalidate() para redibujar vacío.
-
-🟫 Variables importantes
-### board
-
-Matriz 3×3 que guarda el estado del juego:
-
-0 → vacío
-
-1 → X
-
-2 → O
-
-### jugadorActual
-
-Controla de quién es el turno:
-
-1 → X
-
-2 → O
-
-### listener
-
-Permite que el Tablero le “hable” a la Activity.
-
-🟪 Resumen Principal
-
-Este proyecto muestra cómo hacer un Tres en Raya funcional con:
-
-Canvas para dibujar
-
-Toques para jugar
-
-Eventos para comunicar el resultado
-
-ViewBinding para manejar la interfaz
-
-Lógica completa del juego
